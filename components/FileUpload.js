@@ -160,8 +160,9 @@ const FileUpload = ({ onFileProcessed, isProcessing }) => {
 
   return (
     <div className="mb-8">
-      <div className="mb-4 p-4 border border-red-500 bg-red-50 rounded-md">
-        <p className="text-red-600 font-medium">Important File Preparation Note:</p>
+      {/* Warning note with explicit Tailwind text-red-600 class */}
+      <div className="mb-4 p-4 border-2 border-red-600 bg-red-50 rounded-md">
+        <h4 className="text-red-600 font-bold mb-1">Important File Preparation Note:</h4>
         <p className="text-red-600">
           It is recommended to either upload the original PDF containing the result or convert your PDF to images (JPG/JPEG/PNG) and upload. 
           Avoid taking screenshots as they will not match the required image dimensions.
@@ -170,7 +171,7 @@ const FileUpload = ({ onFileProcessed, isProcessing }) => {
       
       <div
         {...getRootProps()}
-        className={`upload-container ${isDragActive ? 'border-blue-500 bg-blue-50' : ''}`}
+        className={`upload-container border-2 p-6 rounded-lg text-center ${isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 border-dashed'}`}
       >
         <input {...getInputProps()} />
         {
