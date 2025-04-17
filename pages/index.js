@@ -11,12 +11,14 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [processedImage, setProcessedImage] = useState(null);
+  const [debugImage, setDebugImage] = useState(null);
   
   const handleFileProcessed = async (file) => {
     try {
       setIsProcessing(true);
       setError(null);
       setScores(null);
+      setDebugImage(null);
       
       let imageElement;
       
@@ -40,9 +42,10 @@ export default function Home() {
       // Save the processed image to display
       setProcessedImage(imageElement.src);
       
-      // Analyze the exam score
-      const scoreResults = await analyzeExamScore(imageElement);
+      // Analyze the exam score with enhanced processing
+      const { scores: scoreResults, debugImageUrl } = await analyzeExamScore(imageElement);
       setScores(scoreResults);
+      setDebugImage(debugImageUrl);
     } catch (err) {
       console.error('Error processing file:', err);
       setError(err.message || 'Failed to process the file');
@@ -74,16 +77,19 @@ export default function Home() {
           </div>
         )}
         
-        {processedImage && (
+        {debugImage && (
           <div className="mt-6">
-            <h2 className="text-xl font-bold mb-2">Processed Image</h2>
+            <h2 className="text-xl font-bold mb-2">Analysis Visualization</h2>
             <div className="border rounded overflow-hidden">
               <img 
-                src={processedImage} 
-                alt="Processed exam chart"
+                src={debugImage} 
+                alt="Score detection visualization"
                 className="max-w-full"
               />
             </div>
+            <p className="text-sm text-gray-500 mt-2">
+              Green lines: 0% and 100% calibration. Red circles: Detected score points.
+            </p>
           </div>
         )}
         
