@@ -58,12 +58,12 @@ export default function Home() {
     <div className="container">
       <Head>
         <title>Exam Score Analyzer</title>
-        <meta name="description" content="Analyze exam score charts from images or PDFs" />
+        <meta name="description" content="Analyze exam score charts from PDFs" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
-        <h1 className="text-3xl font-bold mb-4">Exam Score Chart Analyzer</h1>
+        <h1 className="text-3xl font-bold mb-4">CFA Exam Score Chart Analyzer</h1>
         <p className="mb-8">Upload an exam score chart image or PDF to analyze the scores by topic.</p>
         
         <FileUpload 
@@ -102,7 +102,7 @@ export default function Home() {
       </main>
 
       <footer className="mt-12 pt-4 border-t text-center text-gray-500">
-        <p>Exam Score Analyzer &copy; {new Date().getFullYear()}</p>
+        <p>CFA Exam Score Analyzer &copy; {new Date().getFullYear()}</p>
       </footer>
     </div>
   );
