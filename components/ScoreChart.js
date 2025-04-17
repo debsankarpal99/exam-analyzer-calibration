@@ -65,13 +65,16 @@ const ScoreChart = ({ scores }) => {
     ],
   };
 
-  return (
-    <div className="mt-8">
-      <div style={{ height: '400px' }}>
+ return (
+  <div className="mt-8">
+    <div style={{ overflowX: 'auto' }}>
+      <div style={{ minWidth: '600px', height: '400px' }}>
         <Bar options={options} data={data} />
       </div>
     </div>
-  );
+  </div>
+);
+
 };
 
 export default ScoreChart;
