@@ -160,6 +160,14 @@ const FileUpload = ({ onFileProcessed, isProcessing }) => {
 
   return (
     <div className="mb-8">
+      <div className="mb-4 p-4 border border-red-500 bg-red-50 rounded-md">
+        <p className="text-red-600 font-medium">Important File Preparation Note:</p>
+        <p className="text-red-600">
+          It is recommended to either upload the original PDF containing the result or convert your PDF to images (JPG/JPEG/PNG) and upload. 
+          Avoid taking screenshots as they will not match the required image dimensions.
+        </p>
+      </div>
+      
       <div
         {...getRootProps()}
         className={`upload-container ${isDragActive ? 'border-blue-500 bg-blue-50' : ''}`}
