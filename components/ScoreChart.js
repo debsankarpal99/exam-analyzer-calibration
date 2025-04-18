@@ -18,6 +18,16 @@ const ScoreChart = ({ scores }) => {
   const topics = Object.keys(scores);
   const scoreValues = topics.map(topic => scores[topic] !== null ? scores[topic] : 0);
 
+  // Utility to wrap labels into lines of max 3 words
+  const wrapLabel = (label) => {
+    const words = label.split(' ');
+    const lines = [];
+    for (let i = 0; i < words.length; i += 3) {
+      lines.push(words.slice(i, i + 3).join(' '));
+    }
+    return lines;
+  };
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -78,9 +88,8 @@ const ScoreChart = ({ scores }) => {
           font: {
             size: 12,
           },
-          callback: function(val) {
-            const label = this.getLabelForValue(val);
-            return label.length > 15 ? label.substring(0, 15) + '...' : label;
+          callback: function(val, index) {
+            return wrapLabel(this.getLabelForValue(val));
           }
         }
       }
@@ -93,7 +102,7 @@ const ScoreChart = ({ scores }) => {
       {
         label: 'Score (%)',
         data: scoreValues,
-        backgroundColor: 'rgba(54, 162, 235, 0.6)', // consistent color
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
         borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1,
         borderRadius: 6,
@@ -105,7 +114,7 @@ const ScoreChart = ({ scores }) => {
   return (
     <div className="mt-8">
       <div style={{ overflowX: 'auto' }}>
-        <div style={{ minWidth: '650px', height: '420px', padding: '1rem' }}>
+        <div style={{ minWidth: '650px', height: '440px', padding: '1rem' }}>
           <Bar options={options} data={data} />
         </div>
       </div>
