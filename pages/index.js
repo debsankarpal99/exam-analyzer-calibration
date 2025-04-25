@@ -77,8 +77,7 @@ export default function Home() {
           </div>
         )}
         
-       // In pages/index.js
-// Modify this section to hide the debug visualization
+     
 {/*
   Hide the debug image (calibration canvas) from users
   {debugImage && (
