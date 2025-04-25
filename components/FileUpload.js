@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import * as pdfjsLib from 'pdfjs-dist';
 import ProgressBar from './ProgressBar';
@@ -18,6 +18,33 @@ const FileUpload = ({ onFileProcessed, isProcessing }) => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [fileName, setFileName] = useState('');
   const [dimensionError, setDimensionError] = useState(null);
+  
+  // Animation states for the "Analyzing" text
+  const [dots, setDots] = useState('');
+  const [highlight, setHighlight] = useState(0);
+  const analyzingText = "Analyzing";
+  
+  // Animate dots when processing
+  useEffect(() => {
+    if (!isProcessing) return;
+    
+    const dotInterval = setInterval(() => {
+      setDots(prev => prev.length >= 3 ? '' : prev + '.');
+    }, 400);
+    
+    return () => clearInterval(dotInterval);
+  }, [isProcessing]);
+  
+  // Animate letter highlighting when processing
+  useEffect(() => {
+    if (!isProcessing) return;
+    
+    const highlightInterval = setInterval(() => {
+      setHighlight(prev => (prev + 1) % analyzingText.length);
+    }, 200);
+    
+    return () => clearInterval(highlightInterval);
+  }, [isProcessing]);
 
   const validateImageDimensions = (img) => {
     const tolerance = TOLERANCE_PERCENT / 100;
@@ -204,27 +231,48 @@ const FileUpload = ({ onFileProcessed, isProcessing }) => {
         </div>
       )}
       
-     {isProcessing && (
-  <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-    <div className="text-center p-8 rounded-lg bg-white bg-opacity-10 backdrop-blur-sm">
-      <div className="analyzing-container">
-        <div className="analyzing-text">
-          <span>A</span>
-          <span>N</span>
-          <span>A</span>
-          <span>L</span>
-          <span>Y</span>
-          <span>Z</span>
-          <span>I</span>
-          <span>N</span>
-          <span>G</span>
+      {isProcessing && (
+        <div className="mt-4 text-center flex flex-col items-center justify-center py-8">
+          {/* Animated "Analyzing" text */}
+          <div className="text-3xl font-bold relative">
+            {analyzingText.split('').map((letter, index) => (
+              <span 
+                key={index} 
+                className={`inline-block transition-all duration-300 ${
+                  index === highlight ? 'text-blue-600 scale-125 transform' : 'text-gray-700'
+                }`}
+                style={{
+                  transformOrigin: 'center bottom'
+                }}
+              >
+                {letter}
+              </span>
+            ))}
+            <span className="text-blue-600">{dots}</span>
+          </div>
+          
+          {/* Progress bar with scanning effect */}
+          <div className="w-64 h-2 bg-gray-200 rounded-full mt-4 overflow-hidden relative">
+            <div 
+              className="h-full w-16 bg-blue-600 absolute rounded-full" 
+              style={{
+                animation: 'scanning 1.5s infinite ease-in-out'
+              }}
+            ></div>
+          </div>
+          
+          <style jsx>{`
+            @keyframes scanning {
+              0% {
+                left: -48px;
+              }
+              100% {
+                left: 100%;
+              }
+            }
+          `}</style>
         </div>
-        <div className="scanning-line"></div>
-      </div>
-      <p className="text-white text-opacity-80 mt-6">Extracting score data from your exam...</p>
-    </div>
-  </div>
-)}
+      )}
     </div>
   );
 };
