@@ -77,21 +77,26 @@ export default function Home() {
           </div>
         )}
         
-        {debugImage && (
-          <div className="mt-6">
-            <h2 className="text-xl font-bold mb-2">Analysis Visualization</h2>
-            <div className="border rounded overflow-hidden">
-              <img 
-                src={debugImage} 
-                alt="Score detection visualization"
-                className="max-w-full"
-              />
-            </div>
-            <p className="text-sm text-gray-500 mt-2">
-              Green lines: 0% and 100% calibration. Red circles: Detected score points.
-            </p>
-          </div>
-        )}
+       // In pages/index.js
+// Modify this section to hide the debug visualization
+{/*
+  Hide the debug image (calibration canvas) from users
+  {debugImage && (
+    <div className="mt-6">
+      <h2 className="text-xl font-bold mb-2">Analysis Visualization</h2>
+      <div className="border rounded overflow-hidden">
+        <img 
+          src={debugImage} 
+          alt="Score detection visualization"
+          className="max-w-full"
+        />
+      </div>
+      <p className="text-sm text-gray-500 mt-2">
+        Green lines: 0% and 100% calibration. Red circles: Detected score points.
+      </p>
+    </div>
+  )}
+*/}
         
         {scores && (
           <>
