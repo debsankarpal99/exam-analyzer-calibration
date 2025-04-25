@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const AdvancedAnalyzingAnimation = () => {
+const AnimatedAnalyzingMotion = () => {
   const [animState, setAnimState] = useState(0);
   const [glowIntensity, setGlowIntensity] = useState(0);
   
