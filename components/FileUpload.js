@@ -204,12 +204,24 @@ const FileUpload = ({ onFileProcessed, isProcessing }) => {
         </div>
       )}
       
-      {isProcessing && (
+     {isProcessing && (
   <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-    <div className="text-center p-8 rounded-lg">
-      <div className="analyzing-spinner mb-4"></div>
-      <h2 className="text-2xl font-bold text-white mb-2">Analyzing</h2>
-      <p className="text-white text-opacity-80">Extracting score data from your exam...</p>
+    <div className="text-center p-8 rounded-lg bg-white bg-opacity-10 backdrop-blur-sm">
+      <div className="analyzing-container">
+        <div className="analyzing-text">
+          <span>A</span>
+          <span>N</span>
+          <span>A</span>
+          <span>L</span>
+          <span>Y</span>
+          <span>Z</span>
+          <span>I</span>
+          <span>N</span>
+          <span>G</span>
+        </div>
+        <div className="scanning-line"></div>
+      </div>
+      <p className="text-white text-opacity-80 mt-6">Extracting score data from your exam...</p>
     </div>
   </div>
 )}
