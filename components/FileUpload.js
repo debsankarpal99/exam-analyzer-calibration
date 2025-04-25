@@ -1,8 +1,8 @@
+import AnimatedAnalyzingText from './AnimatedAnalyzingText';
 import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import * as pdfjsLib from 'pdfjs-dist';
 import ProgressBar from './ProgressBar';
-import AnimatedAnalyzingMotion from './AnimatedAnalyzingMotion'; 
 
 // Ensure PDF.js worker is configured
 pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
@@ -205,12 +205,13 @@ const FileUpload = ({ onFileProcessed, isProcessing }) => {
         </div>
       )}
 
-      {isProcessing && (
+     {isProcessing && (
   <div className="mt-4 text-center">
-    <AnimatedAnalyzingMotion />
+    <AnimatedAnalyzingText />
     <p className="text-sm text-gray-500">This may take a moment</p>
   </div>
 )}
+
     </div>
   );
 };
