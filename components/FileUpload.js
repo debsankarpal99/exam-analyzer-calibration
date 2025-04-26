@@ -205,14 +205,19 @@ const FileUpload = ({ onFileProcessed, isProcessing }) => {
       )}
       
       {isProcessing && (
-  <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-    <div className="text-center p-8 rounded-lg">
-      <div className="analyzing-spinner mb-4"></div>
-      <h2 className="text-2xl font-bold text-white mb-2">Analyzing</h2>
-      <p className="text-white text-opacity-80">Extracting score data from your exam...</p>
-    </div>
-  </div>
-)}
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+          <div className="text-center p-8 rounded-lg w-full max-w-lg">
+            <div className="analyzing-container">
+              <div className="analyzing-text">
+                <span>Analyzing<span className="analyzing-dots"></span></span>
+                <span>Analyzing<span className="analyzing-dots"></span></span>
+                <span>Analyzing<span className="analyzing-dots"></span></span>
+              </div>
+            </div>
+            <p className="text-white text-opacity-80 mt-4">Extracting score data from your exam...</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
