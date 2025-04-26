@@ -1,174 +1,171 @@
+/* /styles/globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ... (Keep existing body, container, upload-container, result-table styles) ... */
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   padding: 0;
   margin: 0;
+  background-color: #f9fafb; /* Light gray background */
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1000px; 
   margin: 0 auto;
   padding: 2rem;
+  background-color: #ffffff; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); 
+  border-radius: 8px; 
+  margin-top: 2rem; 
+  margin-bottom: 2rem; 
 }
 
-/* Custom styles for our app */
 .upload-container {
-  border: 2px dashed #ccc;
-  border-radius: 5px;
-  padding: 2rem;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.upload-container:hover {
-  border-color: #0070f3;
+  transition: all 0.2s ease-in-out;
+  background-color: #f9fafb; 
 }
 
 .result-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1rem;
+  margin-top: 1.5rem; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  overflow: hidden; 
 }
 
 .result-table th,
 .result-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
+  border-bottom: 1px solid #e5e7eb; 
+  padding: 12px 16px; 
   text-align: left;
+  vertical-align: middle; 
 }
 
 .result-table th {
-  background-color: #f2f2f2;
+  background-color: #f3f4f6; 
+  font-weight: 600; 
+  color: #374151; 
+  font-size: 0.875rem; 
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-/* Futuristic Data Processing Animation */
-.analyzing-container {
-  position: relative;
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-  text-align: center;
-  padding: 20px 0;
-  background: rgba(0, 20, 40, 0.2);
-  border-radius: 20px;
-  box-shadow: 0 4px 30px rgba(0, 20, 40, 0.1);
+.result-table td {
+  color: #4b5563; 
+  font-size: 0.9rem; 
 }
 
-.analyzing-wave {
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
-  padding: 10px 0;
+.result-table tbody tr:nth-child(even) {
+  background-color: #f9fafb; 
+}
+.result-table tbody tr:hover {
+  background-color: #eff6ff; 
 }
 
-.analyzing-wave span {
-  display: inline-block;
-  color: #ffffff;
-  font-size: 32px;
-  font-weight: 600;
-  font-family: 'Arial', sans-serif;
-  letter-spacing: 1px;
-  text-shadow: 0 0 5px rgba(0, 153, 255, 0.7);
-  position: relative;
-  transform-style: preserve-3d;
-  perspective: 100px;
-  animation: data-processing 1.5s infinite;
+
+/* --- START: New Horizontal Shimmer Animation Styles --- */
+
+/* Container for the text - needed for positioning the effect */
+.analyzing-text-container {
+    position: relative; /* Needed for pseudo-element positioning */
+    overflow: hidden; /* Clip the shimmer effect */
+    display: inline-block; /* Fit container to text size */
+    color: white;
+    font-size: 1.75rem; /* text-xl or text-2xl */
+    font-weight: 600; /* font-semibold */
+    letter-spacing: 0.05em; /* Slightly wider */
+    /* Add a subtle text pulse */
+    animation: text-pulse 1.8s infinite ease-in-out alternate; 
 }
 
-/* Different delay for each letter */
-.analyzing-wave span:nth-child(1) { animation-delay: 0.0s; }
-.analyzing-wave span:nth-child(2) { animation-delay: 0.01s; }
-.analyzing-wave span:nth-child(3) { animation-delay: 0.02s; }
-.analyzing-wave span:nth-child(4) { animation-delay: 0.03s; }
-.analyzing-wave span:nth-child(5) { animation-delay: 0.04s; }
-.analyzing-wave span:nth-child(6) { animation-delay: 0.05s; }
-.analyzing-wave span:nth-child(7) { animation-delay: 0.06s; }
-.analyzing-wave span:nth-child(8) { animation-delay: 0.07s; }
-.analyzing-wave span:nth-child(9) { animation-delay: 0.08s; }
-
-/* Futuristic loading dots */
-.analyzing-dots {
-  display: inline-flex;
-  align-items: center;
-  margin-left: 10px;
+/* The shimmer/scan pseudo-element */
+.analyzing-text-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* Create the shimmer gradient - moves across the text */
+    background: linear-gradient(
+        100deg, /* Angle of the wipe */
+        rgba(255, 255, 255, 0) 20%, /* Start transparent */
+        rgba(255, 255, 255, 0.5) 50%, /* Peak highlight */
+        rgba(255, 255, 255, 0) 80%  /* End transparent */
+    );
+    
+    /* Make the gradient wide enough to produce a "wipe" effect */
+    background-size: 200% 100%; 
+    
+    /* Start the animation */
+    animation: shimmer-effect 1.8s linear infinite; /* Adjust speed here */
 }
 
-.analyzing-dots .dot {
-  width: 5px;
-  height: 15px;
-  margin: 0 3px;
-  background-color: #0099ff;
-  box-shadow: 0 0 8px #0099ff;
-  animation: data-dot 1s infinite ease;
-  border-radius: 1px;
-}
-
-.analyzing-dots .dot:nth-child(1) { 
-  animation-delay: 0s;
-  height: 15px;
-}
-.analyzing-dots .dot:nth-child(2) { 
-  animation-delay: 0.2s;
-  height: 20px;
-}
-.analyzing-dots .dot:nth-child(3) { 
-  animation-delay: 0.4s;
-  height: 25px;
-}
-
-@keyframes data-processing {
-  0%, 100% {
-    transform: translateY(0) rotateX(0deg);
-    color: #ffffff;
-    text-shadow: 0 0 5px rgba(0, 153, 255, 0.7);
+/* Keyframes to move the gradient background position */
+@keyframes shimmer-effect {
+  0% {
+    background-position: 200% 0; /* Start far right */
   }
-  50% {
-    transform: translateY(-8px) rotateX(10deg);
-    color: #0099ff;
-    text-shadow: 0 0 10px rgba(0, 153, 255, 1);
+  100% {
+    background-position: -200% 0; /* End far left */
   }
 }
 
-@keyframes data-dot {
-  0%, 100% {
-    transform: scaleY(0.5);
-    background-color: #0077cc;
-  }
-  50% {
-    transform: scaleY(1);
-    background-color: #00bbff;
-    box-shadow: 0 0 15px #00bbff;
-  }
+/* Optional subtle pulse on the text itself */
+@keyframes text-pulse {
+    from { opacity: 0.85; }
+    to { opacity: 1; }
 }
 
-.analyzing-pulse {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  height: 100%;
-  border-radius: 20px;
-  background: linear-gradient(45deg, rgba(0, 20, 40, 0.1), rgba(0, 153, 255, 0.1));
-  z-index: -1;
-  animation: data-pulse 2s infinite ease-in-out;
-  border: 1px solid rgba(0, 153, 255, 0.2);
+/* Simple dots animation (less distracting than before) */
+.analyzing-dots-simple {
+    display: inline-block;
+    width: 1.2em; /* Reserve space for dots */
+    text-align: left;
+    vertical-align: bottom;
+    /* Uses steps to make dots appear discretely */
+    animation: dots-simple 1.2s infinite steps(4, end);
 }
 
-@keyframes data-pulse {
-  0%, 100% {
-    opacity: 0.5;
-    border-color: rgba(0, 153, 255, 0.2);
-  }
-  50% {
-    opacity: 0.8;
-    border-color: rgba(0, 153, 255, 0.4);
-    box-shadow: 0 0 20px rgba(0, 153, 255, 0.2);
-  }
+@keyframes dots-simple {
+    0% { content: ''; }     /* 0ms */
+    25% { content: '.'; }    /* 300ms */
+    50% { content: '..'; }   /* 600ms */
+    75% { content: '...'; }  /* 900ms */
+    100% { content: ''; }    /* 1200ms - cycle back */
 }
+
+/* Optional animated scan bar */
+.scan-bar-inner {
+    background: linear-gradient(
+        90deg, 
+        rgba(52, 152, 219, 0), /* Transparent blue start */
+        rgba(52, 152, 219, 0.8), /* Brighter blue */
+        rgba(52, 152, 219, 0)  /* Transparent blue end */
+    );
+    background-size: 50% 100%; /* Size of the moving light */
+    background-repeat: no-repeat;
+    animation: scan-bar-anim 1.5s linear infinite;
+}
+
+@keyframes scan-bar-anim {
+    0% { background-position: -50% 0; } /* Start left */
+    100% { background-position: 150% 0; } /* End right */
+}
+
+
+/* --- END: New Horizontal Shimmer Animation Styles --- */
+
+/* --- REMOVED Old Spinner/Dots Styles --- */
+/* .cool-spinner, 
+   @keyframes spin, 
+   .analyzing-dots-new, 
+   @keyframes dots-new { */
+     /* Removed */
+/* } */
