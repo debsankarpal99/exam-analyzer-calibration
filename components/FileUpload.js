@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import * as pdfjsLib from 'pdfjs-dist';
 import ProgressBar from './ProgressBar';
+import AnimatedAnalyzingText from './AnimatedAnalyzingText';
 
 // Ensure PDF.js worker is configured
 pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
@@ -204,32 +205,14 @@ const FileUpload = ({ onFileProcessed, isProcessing }) => {
         </div>
       )}
       
-     {isProcessing && (
-  <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-    <div className="text-center p-8 rounded-lg w-full max-w-lg">
-      <div className="analyzing-container">
-        <div className="analyzing-wave">
-          <span data-text="A">A</span>
-          <span data-text="N">N</span>
-          <span data-text="A">A</span>
-          <span data-text="L">L</span>
-          <span data-text="Y">Y</span>
-          <span data-text="Z">Z</span>
-          <span data-text="I">I</span>
-          <span data-text="N">N</span>
-          <span data-text="G">G</span>
-          <span className="analyzing-dots">
-            <span className="dot"></span>
-            <span className="dot"></span>
-            <span className="dot"></span>
-          </span>
+      {isProcessing && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+          <div className="text-center p-8 rounded-lg w-full max-w-lg">
+            <AnimatedAnalyzingText />
+            <p className="text-white text-opacity-80 mt-4">Extracting score data from your exam...</p>
+          </div>
         </div>
-        <div className="analyzing-pulse"></div>
-      </div>
-      <p className="text-white text-opacity-80 mt-4">Extracting score data from your exam...</p>
-    </div>
-  </div>
-)}
+      )}
     </div>
   );
 };
