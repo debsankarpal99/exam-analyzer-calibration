@@ -46,42 +46,69 @@ body {
   background-color: #f2f2f2;
 }
 
-/* New horizontal flowing animation */
+/* Cool wave analyzing animation */
 .analyzing-container {
   position: relative;
   width: 100%;
-  overflow: hidden;
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 8px;
-  padding: 16px 0;
-  margin-bottom: 16px;
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 20px 0;
 }
 
 .analyzing-text {
-  display: flex;
-  width: max-content;
-  animation: flowText 6s linear infinite;
-}
-
-.analyzing-text span {
-  font-size: 32px;
+  font-size: 36px;
   font-weight: bold;
   color: #3498db;
-  margin-right: 80px;
-  text-shadow: 0 0 10px rgba(52, 152, 219, 0.8);
-  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
+/* Create the wave animation */
+.analyzing-wave {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  padding: 10px 0;
+}
+
+.analyzing-wave span {
+  display: inline-block;
+  color: #3498db;
+  font-size: 36px;
+  font-weight: bold;
+  animation-duration: 1s;
+  animation-name: wave-animation;
+  animation-iteration-count: infinite;
+  position: relative;
+}
+
+/* Different delay for each letter for wave effect */
+.analyzing-wave span:nth-child(1) { animation-delay: 0.0s; }
+.analyzing-wave span:nth-child(2) { animation-delay: 0.1s; }
+.analyzing-wave span:nth-child(3) { animation-delay: 0.2s; }
+.analyzing-wave span:nth-child(4) { animation-delay: 0.3s; }
+.analyzing-wave span:nth-child(5) { animation-delay: 0.4s; }
+.analyzing-wave span:nth-child(6) { animation-delay: 0.5s; }
+.analyzing-wave span:nth-child(7) { animation-delay: 0.6s; }
+.analyzing-wave span:nth-child(8) { animation-delay: 0.7s; }
+.analyzing-wave span:nth-child(9) { animation-delay: 0.8s; }
+.analyzing-wave span:nth-child(10) { animation-delay: 0.9s; }
+
+/* Dots animation for the ellipsis */
 .analyzing-dots {
   display: inline-block;
   position: relative;
-  width: 40px;
+  width: 60px;
 }
 
 .analyzing-dots::after {
   content: '';
   position: absolute;
-  animation: dots 1.5s linear infinite;
+  animation: dots 1.5s infinite ease-in-out;
 }
 
 @keyframes dots {
@@ -92,26 +119,48 @@ body {
   100% { content: ''; }
 }
 
-@keyframes flowText {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
+@keyframes wave-animation {
+  0%, 100% { 
+    transform: translateY(0);
+    text-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+  }
+  50% { 
+    transform: translateY(-15px);
+    text-shadow: 0 0 20px rgba(52, 152, 219, 0.8);
+    color: #2ecc71;
+  }
 }
 
-/* Keep original spinner for compatibility but with modified styles */
-.analyzing-spinner {
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  margin: 0 16px;
+/* Pulse effect around the text */
+.analyzing-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 110%;
+  height: 110%;
   border-radius: 50%;
-  border: 3px solid transparent;
-  border-top-color: #3498db;
-  border-bottom-color: #3498db;
-  animation: spin 1.5s linear infinite;
-  vertical-align: middle;
+  background: rgba(52, 152, 219, 0.1);
+  z-index: -1;
+  animation: pulse 2s infinite;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.8;
+  }
+  70% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0;
+  }
+}
+
+/* Keep original spinner styles for compatibility but hide by default */
+.analyzing-spinner {
+  display: none;
 }
