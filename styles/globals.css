@@ -45,54 +45,73 @@ body {
 .result-table th {
   background-color: #f2f2f2;
 }
-/* Cool analyzing spinner and animations */
-.analyzing-spinner {
-  width: 70px;
-  height: 70px;
-  margin: 0 auto;
-  border-radius: 50%;
-  border: 5px solid transparent;
-  border-top-color: #3498db;
-  border-bottom-color: #3498db;
-  animation: spin 1.5s linear infinite, pulse 2s ease-in-out infinite alternate;
-  box-shadow: 0 0 25px rgba(52, 152, 219, 0.7);
+
+/* New horizontal flowing animation */
+.analyzing-container {
   position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 8px;
+  padding: 16px 0;
+  margin-bottom: 16px;
 }
 
-.analyzing-spinner::before {
-  content: '';
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  right: 5px;
-  bottom: 5px;
-  border-radius: 50%;
-  border: 4px solid transparent;
-  border-right-color: #2ecc71;
-  border-left-color: #2ecc71;
-  animation: spin 1s linear infinite reverse;
+.analyzing-text {
+  display: flex;
+  width: max-content;
+  animation: flowText 6s linear infinite;
 }
 
-.analyzing-spinner::after {
+.analyzing-text span {
+  font-size: 32px;
+  font-weight: bold;
+  color: #3498db;
+  margin-right: 80px;
+  text-shadow: 0 0 10px rgba(52, 152, 219, 0.8);
+  transition: all 0.3s ease;
+}
+
+.analyzing-dots {
+  display: inline-block;
+  position: relative;
+  width: 40px;
+}
+
+.analyzing-dots::after {
   content: '';
   position: absolute;
-  top: 15px;
-  left: 15px;
-  right: 15px;
-  bottom: 15px;
+  animation: dots 1.5s linear infinite;
+}
+
+@keyframes dots {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+  100% { content: ''; }
+}
+
+@keyframes flowText {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Keep original spinner for compatibility but with modified styles */
+.analyzing-spinner {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  margin: 0 16px;
   border-radius: 50%;
   border: 3px solid transparent;
-  border-top-color: #f1c40f;
-  border-bottom-color: #f1c40f;
-  animation: spin 1.25s linear infinite;
+  border-top-color: #3498db;
+  border-bottom-color: #3498db;
+  animation: spin 1.5s linear infinite;
+  vertical-align: middle;
 }
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
-}
-
-@keyframes pulse {
-  0% { box-shadow: 0 0 15px rgba(52, 152, 219, 0.7); }
-  100% { box-shadow: 0 0 30px rgba(52, 152, 219, 0.9), 0 0 50px rgba(52, 152, 219, 0.4); }
 }
