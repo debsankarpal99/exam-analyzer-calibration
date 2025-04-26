@@ -46,7 +46,7 @@ body {
   background-color: #f2f2f2;
 }
 
-/* Neon Tech Pulse Animation */
+/* Futuristic Data Processing Animation */
 .analyzing-container {
   position: relative;
   width: 100%;
@@ -54,6 +54,9 @@ body {
   margin: 0 auto;
   text-align: center;
   padding: 20px 0;
+  background: rgba(0, 20, 40, 0.2);
+  border-radius: 20px;
+  box-shadow: 0 4px 30px rgba(0, 20, 40, 0.1);
 }
 
 .analyzing-wave {
@@ -66,18 +69,19 @@ body {
 
 .analyzing-wave span {
   display: inline-block;
-  color: #00ffff;
-  font-size: 36px;
-  font-weight: bold;
-  text-shadow: 0 0 10px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 255, 255, 0.5);
-  font-family: 'Courier New', monospace;
-  animation-duration: 1.2s;
-  animation-name: neon-wave;
-  animation-iteration-count: infinite;
+  color: #ffffff;
+  font-size: 32px;
+  font-weight: 600;
+  font-family: 'Arial', sans-serif;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px rgba(0, 153, 255, 0.7);
   position: relative;
+  transform-style: preserve-3d;
+  perspective: 100px;
+  animation: data-processing 1.5s infinite;
 }
 
-/* Different delay for each letter for wave effect */
+/* Different delay for each letter */
 .analyzing-wave span:nth-child(1) { animation-delay: 0.0s; }
 .analyzing-wave span:nth-child(2) { animation-delay: 0.1s; }
 .analyzing-wave span:nth-child(3) { animation-delay: 0.2s; }
@@ -88,7 +92,7 @@ body {
 .analyzing-wave span:nth-child(8) { animation-delay: 0.7s; }
 .analyzing-wave span:nth-child(9) { animation-delay: 0.8s; }
 
-/* Neon dots */
+/* Futuristic loading dots */
 .analyzing-dots {
   display: inline-flex;
   align-items: center;
@@ -96,40 +100,50 @@ body {
 }
 
 .analyzing-dots .dot {
-  width: 8px;
-  height: 8px;
-  margin: 0 4px;
-  border-radius: 50%;
-  background-color: #00ffff;
-  box-shadow: 0 0 15px 2px #00ffff;
-  animation: neon-pulse 1.5s infinite;
+  width: 5px;
+  height: 15px;
+  margin: 0 3px;
+  background-color: #0099ff;
+  box-shadow: 0 0 8px #0099ff;
+  animation: data-dot 1s infinite ease;
+  border-radius: 1px;
 }
 
-.analyzing-dots .dot:nth-child(1) { animation-delay: 0s; }
-.analyzing-dots .dot:nth-child(2) { animation-delay: 0.5s; }
-.analyzing-dots .dot:nth-child(3) { animation-delay: 1s; }
+.analyzing-dots .dot:nth-child(1) { 
+  animation-delay: 0s;
+  height: 15px;
+}
+.analyzing-dots .dot:nth-child(2) { 
+  animation-delay: 0.2s;
+  height: 20px;
+}
+.analyzing-dots .dot:nth-child(3) { 
+  animation-delay: 0.4s;
+  height: 25px;
+}
 
-@keyframes neon-wave {
+@keyframes data-processing {
   0%, 100% {
-    transform: translateY(0);
-    opacity: 0.8;
+    transform: translateY(0) rotateX(0deg);
+    color: #ffffff;
+    text-shadow: 0 0 5px rgba(0, 153, 255, 0.7);
   }
   50% {
-    transform: translateY(-10px);
-    opacity: 1;
-    text-shadow: 0 0 20px rgba(0, 255, 255, 1), 0 0 30px rgba(0, 255, 255, 0.8);
+    transform: translateY(-8px) rotateX(10deg);
+    color: #0099ff;
+    text-shadow: 0 0 10px rgba(0, 153, 255, 1);
   }
 }
 
-@keyframes neon-pulse {
+@keyframes data-dot {
   0%, 100% {
-    transform: scale(1);
-    opacity: 0.7;
+    transform: scaleY(0.5);
+    background-color: #0077cc;
   }
   50% {
-    transform: scale(1.5);
-    opacity: 1;
-    box-shadow: 0 0 25px 5px #00ffff;
+    transform: scaleY(1);
+    background-color: #00bbff;
+    box-shadow: 0 0 15px #00bbff;
   }
 }
 
@@ -138,29 +152,23 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 120%;
-  height: 120%;
-  border-radius: 50%;
-  border: 2px solid rgba(0, 255, 255, 0.3);
-  box-shadow: inset 0 0 30px rgba(0, 255, 255, 0.2);
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  background: linear-gradient(45deg, rgba(0, 20, 40, 0.1), rgba(0, 153, 255, 0.1));
   z-index: -1;
-  animation: neon-ring 2s infinite;
+  animation: data-pulse 2s infinite ease-in-out;
+  border: 1px solid rgba(0, 153, 255, 0.2);
 }
 
-@keyframes neon-ring {
-  0% {
-    transform: translate(-50%, -50%) scale(0.8);
-    border-color: rgba(0, 255, 255, 0.2);
-    box-shadow: inset 0 0 20px rgba(0, 255, 255, 0.1);
+@keyframes data-pulse {
+  0%, 100% {
+    opacity: 0.5;
+    border-color: rgba(0, 153, 255, 0.2);
   }
   50% {
-    transform: translate(-50%, -50%) scale(1.1);
-    border-color: rgba(0, 255, 255, 0.4);
-    box-shadow: inset 0 0 40px rgba(0, 255, 255, 0.3), 0 0 20px rgba(0, 255, 255, 0.2);
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(0.8);
-    border-color: rgba(0, 255, 255, 0.2);
-    box-shadow: inset 0 0 20px rgba(0, 255, 255, 0.1);
+    opacity: 0.8;
+    border-color: rgba(0, 153, 255, 0.4);
+    box-shadow: 0 0 20px rgba(0, 153, 255, 0.2);
   }
 }
