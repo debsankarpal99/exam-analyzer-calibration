@@ -1,4 +1,3 @@
-// /components/FileUpload.js
 import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import * as pdfjsLib from 'pdfjs-dist';
@@ -47,26 +46,42 @@ const FileUpload = ({ onFileProcessed, isProcessing }) => {
   const processPdf = async (file) => {
     const arrayBuffer = await file.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    
+    // Get the page count
     const pageCount = pdf.numPages;
+    
+    // Choose which page to render (2nd page if available, otherwise 1st)
     const pageNum = pageCount >= 2 ? 2 : 1;
+    
+    // Get the page
     const page = await pdf.getPage(pageNum);
+    
+    // Get viewport at a scale of 1
     const viewport = page.getViewport({ scale: 1 });
+    
+    // Create a canvas to render the page
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     canvas.height = viewport.height;
     canvas.width = viewport.width;
-    await page.render({ canvasContext: context, viewport: viewport }).promise;
     
+    // Render the PDF page
+    await page.render({
+      canvasContext: context,
+      viewport: viewport
+    }).promise;
+    
+    // Convert canvas to image
     return new Promise((resolve, reject) => {
       const image = new Image();
       image.onload = () => {
+        // Check dimensions
         if (!validateImageDimensions(image)) {
           reject(new Error(`PDF page dimensions don't match any acceptable sizes. Your PDF page is ${image.width}×${image.height} pixels. Acceptable dimensions (with ${TOLERANCE_PERCENT}% tolerance): ${getAcceptableDimensionsText()}`));
           return;
         }
         resolve(canvas.toDataURL('image/png'));
       };
-      image.onerror = reject;
       image.src = canvas.toDataURL('image/png');
     });
   };
@@ -78,10 +93,14 @@ const FileUpload = ({ onFileProcessed, isProcessing }) => {
     setFileName(file.name);
     setDimensionError(null);
     
+    // Start progress animation
     setUploadProgress(0);
     const interval = setInterval(() => {
       setUploadProgress(prev => {
-        if (prev >= 95) { clearInterval(interval); return 95; }
+        if (prev >= 95) {
+          clearInterval(interval);
+          return 95;
+        }
         return prev + 5;
       });
     }, 100);
@@ -89,32 +108,42 @@ const FileUpload = ({ onFileProcessed, isProcessing }) => {
     try {
       let processedFile = file;
       
+      // Handle different file types
       if (file.type === 'application/pdf') {
+        // For PDFs, extract the second page (if available) or first page
         const pdfImageData = await processPdf(file);
+        
+        // Convert data URL to file
         const base64Response = await fetch(pdfImageData);
         const blob = await base64Response.blob();
         processedFile = new File([blob], file.name.replace('.pdf', '.png'), { type: 'image/png' });
+        
       } else if (file.type.startsWith('image/')) {
+        // For images, validate dimensions
         const fileUrl = URL.createObjectURL(file);
         const img = await new Promise((resolve, reject) => {
           const image = new Image();
-          image.onload = () => { URL.revokeObjectURL(fileUrl); resolve(image); };
-          image.onerror = (err) => { URL.revokeObjectURL(fileUrl); reject(err); };
+          image.onload = () => resolve(image);
+          image.onerror = reject;
           image.src = fileUrl;
         });
+        
         if (!validateImageDimensions(img)) {
           throw new Error(`Image dimensions don't match any acceptable sizes. Your image is ${img.width}×${img.height} pixels. Acceptable dimensions (with ${TOLERANCE_PERCENT}% tolerance): ${getAcceptableDimensionsText()}`);
         }
-      } else {
-        throw new Error(`Unsupported file type: ${file.type}. Please upload JPEG, PNG, or PDF.`);
       }
       
+      // Process the file if dimensions are valid
       await onFileProcessed(processedFile);
       setUploadProgress(100);
-      setTimeout(() => { setUploadProgress(0); setFileName(''); }, 1000);
+      
+      // Reset progress after a moment
+      setTimeout(() => {
+        setUploadProgress(0);
+      }, 1000);
     } catch (error) {
       console.error('Error processing file:', error);
-      setDimensionError(error.message || 'An unknown error occurred during file processing.');
+      setDimensionError(error.message);
       clearInterval(interval);
       setUploadProgress(0);
     }
@@ -122,13 +151,16 @@ const FileUpload = ({ onFileProcessed, isProcessing }) => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: { 'image/*': ['.jpeg', '.jpg', '.png'], 'application/pdf': ['.pdf'] },
+    accept: {
+      'image/*': ['.jpeg', '.jpg', '.png'],
+      'application/pdf': ['.pdf']
+    },
     maxFiles: 1
   });
 
   return (
     <div className="mb-8">
-      {/* Warning note */}
+      {/* Warning note with explicit Tailwind text-red-600 class */}
       <div className="mb-4 p-4 border-2 border-red-600 bg-red-50 rounded-md">
         <h4 className="text-red-600 font-bold mb-1">Important File Preparation Note:</h4>
         <p className="text-red-600">
@@ -139,13 +171,12 @@ const FileUpload = ({ onFileProcessed, isProcessing }) => {
       
       <div
         {...getRootProps()}
-        className={`upload-container border-2 p-6 rounded-lg text-center cursor-pointer ${isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 border-dashed hover:border-blue-400'}`}
+        className={`upload-container border-2 p-6 rounded-lg text-center ${isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 border-dashed'}`}
       >
         <input {...getInputProps()} />
-        { /* Dropzone content */ }
-         {
+        {
           isDragActive ?
-            <p className="text-lg text-blue-600 font-medium">Drop the file here...</p> :
+            <p className="text-lg">Drop the file here...</p> :
             <div>
               <p className="text-lg mb-2">Drag & drop an exam score chart image or PDF file here, or click to select</p>
               <p className="text-sm text-gray-500">Supported formats: JPEG, PNG, PDF</p>
@@ -159,16 +190,14 @@ const FileUpload = ({ onFileProcessed, isProcessing }) => {
         }
       </div>
       
-      {dimensionError && ( /* Error display */ )}
-       {dimensionError && (
+      {dimensionError && (
         <div className="mt-2 text-red-600">
           <p>{dimensionError}</p>
-          <p className="text-sm mt-1">Please upload a valid file with appropriate dimensions.</p>
+          <p className="text-sm mt-1">Please upload a full PDF or image with dimensions matching one of the acceptable sizes.</p>
         </div>
       )}
       
-      {fileName && !dimensionError && uploadProgress > 0 && ( /* Progress bar */ )}
-       {fileName && !dimensionError && uploadProgress > 0 && ( // Show progress only when actually uploading/processing
+      {fileName && !dimensionError && (
         <div className="mt-4">
           <p className="text-sm font-medium">Processing: {fileName}</p>
           <ProgressBar progress={uploadProgress} />
@@ -176,32 +205,14 @@ const FileUpload = ({ onFileProcessed, isProcessing }) => {
       )}
       
       {isProcessing && (
-        // Modal Overlay
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-          <div className="text-center w-full max-w-md"> 
-            {/* --- START: Updated Horizontal Animation --- */}
-            <div className="flex flex-col items-center justify-center">
-              
-              {/* Analyzing Text with Shimmer Effect */}
-              <div className="analyzing-text-container mb-3"> {/* Wrapper needed for effect */}
-                  Analyzing
-                  <span className="analyzing-dots-simple"></span> {/* Simple dots */}
-              </div>
-              
-              {/* Optional: Add a subtle bar below */}
-              <div className="w-3/4 h-1.5 bg-white/20 rounded-full overflow-hidden">
-                  <div className="scan-bar-inner h-full rounded-full"></div>
-              </div>
-
-              {/* Subtext (optional, can be removed if too cluttered) */}
-              <p className="text-white/80 text-sm mt-4">
-                Extracting score data...
-              </p>
-            </div>
-             {/* --- END: Updated Horizontal Animation --- */}
-          </div>
-        </div>
-      )}
+  <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+    <div className="text-center p-8 rounded-lg">
+      <div className="analyzing-spinner mb-4"></div>
+      <h2 className="text-2xl font-bold text-white mb-2">Analyzing</h2>
+      <p className="text-white text-opacity-80">Extracting score data from your exam...</p>
+    </div>
+  </div>
+)}
     </div>
   );
 };
